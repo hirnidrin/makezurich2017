@@ -1,2 +1,2 @@
-# MakeZurich 2017 City Gardens Challenge -- Sukkulentensammlung
+Main documentation folder, with datasheets etc.
 
