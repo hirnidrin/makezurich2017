@@ -1,2 +1,2 @@
-# MakeZurich 2017 City Gardens Challenge -- Sukkulentensammlung
+Hardware stuff: wiring and PCB design files.
 
