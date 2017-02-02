@@ -1,5 +1,7 @@
 #include <rn2xx3.h>
 #include <SoftwareSerial.h>
+#include <Wire.h>
+#include <SHT2x.h>
 
 // define the arduino digital i/o pins that emulate the serial connection to the Lora module
 SoftwareSerial mySerial(7, 8); // RX, TX
@@ -25,7 +27,11 @@ void setup() {
   // init the HW serial that connects to the FTDI, for logging back to the local terminal
   Serial.begin(57600);
   Serial.println("Startup");
-  
+
+  // init the i2c wire lib, pins A4 A5
+  Wire.begin();
+
+
   // init the emulated serial that connects to the Lora module
   mySerial.begin(9600);
 
@@ -51,12 +57,35 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
   led_on();
-  Serial.println("TXing");
 
-  myLora.txUncnf("X");
+  int i;
+  float f;
+  static uint8_t msg[4];
+  
+  // get temp, convert 22.58 to 226 to transmit an integer / byte value ... todo: round to 1 decimal
+  f = SHT2x.GetTemperature(); // returns float nn.nn
+  i = (int) (f * 100);
+  // pack into byte array
+  msg[0] = highByte(i);
+  msg[1] = lowByte(i);
+  
+  Serial.print("Temperature [C]: ");
+  Serial.print(f); Serial.print(" / "); Serial.print(i);
+
+  // get hum, convert 89.58 to 6789 to transmit an integer / byte value ... todo: round to 1 decimal
+  f = SHT2x.GetHumidity(); // returns float nn.nn
+  i = (int) (f * 100);
+  // pack into byte array
+  msg[2] = highByte(i);
+  msg[3] = lowByte(i);
+
+  Serial.print(" -- Humidity [%RH]: ");
+  Serial.print(f); Serial.print(" / "); Serial.println(i);
+
+  // send the byte array
+  myLora.txBytes(msg, 4);
 
   led_off();
-
   delay(60000);
 }
 
