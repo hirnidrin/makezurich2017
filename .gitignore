@@ -1,3 +1,4 @@
 test/helloLora/myLoraCredentials.h
 node/node_modules
 node/config.js
+ardu/myLoraCredentials.h
