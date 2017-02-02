@@ -1,5 +1,11 @@
+const express = require('express');
+const app = express();
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 const ttn = require('ttn');
-const StringDecoder = require('string_decoder').StringDecoder; // decoding buffer
+const StringDecoder = require('string_decoder').StringDecoder; // decoding buffer. currently not required
 const config = require('./config'); // keys and config variables stored separately
 
 // ttn connection settings
@@ -7,11 +13,26 @@ const region = 'eu';
 const appId = config.ttn_id;
 const accessKey = config.ttn_key;
 
-//more
+// parameters
+const PORT = 3210;
 
-
-// construct client
+// construct ttn client
 const client = new ttn.Client(region, appId, accessKey);
+
+// tools
+
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, new Uint16Array(buf));
+}
+
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+  var bufView = new Uint16Array(buf);
+  for (var i=0, strLen=str.length; i<strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
 
 
 // run  it
@@ -33,10 +54,6 @@ client.on('device', null, 'down/scheduled', function(deviceId, data) {
 
 client.on('message', function(deviceId, data) {
   console.info('[INFO] ', 'Message:', deviceId, JSON.stringify(data, null, 2));
-  
-  const decoder = new StringDecoder('utf8');
-
-
 
   if (data.payload_raw){
     var data_point = data.payload_raw;
@@ -48,16 +65,43 @@ client.on('message', function(deviceId, data) {
 
 });
 
-client.on('message', null, 'led', function(deviceId, led) {
+// express basic server
+// set up
+app.use(express.static('public'));
 
-  // Toggle the LED
-  var payload = {
-    led: !led
-  };
-
-  // If you don't have an encoder payload function:
-  // var payload = [led ? 0 : 1];
-
-  console.log('[DEBUG]', 'Sending:', JSON.stringify(payload));
-  client.send(deviceId, payload);
+// routing
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
 });
+
+io.on('connection', function(socket){
+  console.log('connection')
+  
+  client.on('message', function(deviceId, data) {
+
+      if (data.payload_raw){
+        
+        var data_point = ab2str(data.payload_raw);
+        io.emit('chat message', data_point);
+
+      }else { 
+        
+        console.log("no payload");
+
+      }
+
+    });
+
+
+  socket.on('chat message', function(msg){
+    // console.log('message: ' + msg);
+    // io.emit('chat message', msg);
+  });
+});
+
+//serve
+http.listen(PORT, function(){
+  console.log('listening on port*: ' + PORT);
+});
+
+
