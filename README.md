@@ -29,9 +29,9 @@ As agreed on phone call with Mr Heimgartner 31.1.2017
  * Worst case: Place a GSM based gateway locally somewhere in the Sukkulentensammlung.
 * Electronics / Arduino
  * Autonomous power supply: need a battery / rechargeable solution
-  * Minimal: Battery.
-  * Realistic: MicroUSB charger / mobile phone power bank.
-  * Ideal: solar panel charger / LiPo, but not sure if enough light. HW platform probably too power hungry, would need other processor  unit.
+  * - Minimal: Battery.
+  * - Realistic: MicroUSB charger / mobile phone power bank.
+  * - Ideal: solar panel charger / LiPo, but not sure if enough light. HW platform probably too power hungry, would need other processor  unit.
 * SCRAPPED ~~Install and read a 5-position (or more) turn switch, so gardener can easily set the greenhouse where the box is currently located. This is used to not mess up the histograms.~~
 * Measure power usage, minimize for longer batt life.
  * Switch off the green power LED. According schematics, uses about 5mA all the time.
@@ -42,9 +42,9 @@ As agreed on phone call with Mr Heimgartner 31.1.2017
  * micro USB charger connection
  * antenna RMA connector
  * combined temp / hum sensor... how where?
-  * fix mount based on box, some cm apart from box?
-  * just hanging at the 1m cable, for free placement?
-  * SCRAPPED ~~5-position turn switch, clearly labeled~~
+  * - fix mount based on box, some cm apart from box?
+  * - just hanging at the 1m cable, for free placement?
+  * - SCRAPPED ~~5-position turn switch, clearly labeled~~
 * TTN
  * define data format
  * bring in the data
