@@ -8,7 +8,7 @@
 ## Situation
 * 5 greenhouses, each about 10m long
 * poor electrical cabling
-* no internet connection readily available (office goes thru Stadt Zurich IT network, too closed for hooking up a gateway short term
+* no internet connection readily available (garden office goes thru Stadt Zurich IT network, too closed for hooking up an untrusted gateway short term)
 * currently they have some old-school data loggers that only can be read-out by connecting a PC with USB cable
 * They participate in MZ17 to learn about the possibilities of Lora backed data acquisition / interaction. Check stability, accuracy, end user adoption. Convince end users / low-tech gardeners that modern digital non-intrusive monitoring system might be useful ;-)
 
