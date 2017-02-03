@@ -31,7 +31,6 @@ void setup() {
   // init the i2c wire lib, pins A4 A5
   Wire.begin();
 
-
   // init the emulated serial that connects to the Lora module
   mySerial.begin(9600);
 
@@ -54,36 +53,51 @@ void setup() {
   delay(2000);
 }
 
+int i;
+float f;
+static uint8_t msg[6];
+
 // the loop routine runs over and over again forever:
 void loop() {
   led_on();
 
-  int i;
-  float f;
-  static uint8_t msg[4];
-  
-  // get temp, convert 22.58 to 226 to transmit an integer / byte value ... todo: round to 1 decimal
-  f = SHT2x.GetTemperature(); // returns float nn.nn
-  i = (int) (f * 100);
+  // get the battery voltage: read the voltage on analog pin 0, represents half of battery voltage 
+  int voltageA0 = analogRead(A0); // returns an integer in the range 0..1023 (10bit A/D converter)
+  // convert the integer to a float (0 - 3.3V):
+  float f = voltageA0 * 3.3 / 1024.0;
+  // the voltage in f (at the A0 pin) represents half of the battery level -> adjust for this
+  f = 2 * f; // the real current battery voltage level
+  // convert 4.87 to 487 (we must transmit an integer / byte value)
+  int i = (int) (f * 100);
   // pack into byte array
   msg[0] = highByte(i);
   msg[1] = lowByte(i);
+  // log to console
+  Serial.print("Batt [V]: ");
+  Serial.print(f); Serial.print(" / "); Serial.print(i);
   
-  Serial.print("Temperature [C]: ");
+  // get temp, convert 22.58 to 2258 (we must transmit an integer / byte value)
+  f = SHT2x.GetTemperature(); // returns float nn.nn
+  i = (int) (f * 100);
+  // pack into byte array
+  msg[2] = highByte(i);
+  msg[3] = lowByte(i);
+  // log to console
+  Serial.print(" -- Temp [C]: ");
   Serial.print(f); Serial.print(" / "); Serial.print(i);
 
   // get hum, convert 89.58 to 6789 to transmit an integer / byte value ... todo: round to 1 decimal
   f = SHT2x.GetHumidity(); // returns float nn.nn
   i = (int) (f * 100);
   // pack into byte array
-  msg[2] = highByte(i);
-  msg[3] = lowByte(i);
-
-  Serial.print(" -- Humidity [%RH]: ");
+  msg[4] = highByte(i);
+  msg[5] = lowByte(i);
+  // log to console
+  Serial.print(" -- Hum [%RH]: ");
   Serial.print(f); Serial.print(" / "); Serial.println(i);
 
   // send the byte array
-  myLora.txBytes(msg, 4);
+  myLora.txBytes(msg, 6);
 
   led_off();
   delay(60000);
