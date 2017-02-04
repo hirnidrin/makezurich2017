@@ -1,11 +1,22 @@
-# MakeZurich 2017 City Gardens Challenge -- Sukkulentensammlung
+## MakeZurich:GreenAgain
+#Collecting temperature and humidity data helps cactuseses grow strong!
 
-## Contacts
-* Mr Jonas Heimgartner -- stakeholder Stadt Zürich
-* Mr Schneider -- chief gardener at Sukkulentensammlung
-* Hackathon team -- Giorgio, Patrick, Philip, Quim, Werner
+We made a portable compact opne-data connection unit that gardners can easily pick up and place in th greenhouse of thir choice.
 
-## Situation
+We thank for the collaboration of:
+* Mr Jonas Heimgartner: Gruene Stadt Zurich
+* Mr Schneider: gardener in chief at Sukkulentensammlung Zurich
+
+The Hackathon team is:
+* Giorgio: the guy with the soldering iron
+* Patrick: working hard to show you the data
+* Philip: thanks to him the sensor-node board is dry and safe ... and it looks great too!
+* Quim: because you can become an expert in TTN netowrk coverage in 48 hours.
+* Werner: you need one like him to get thigs done! You really do!
+
+##Project Status
+
+# Situation
 * 5 greenhouses, each about 10m long
 * poor electrical cabling
 * no internet connection readily available (garden office goes thru Stadt Zurich IT network, too closed for hooking up an untrusted gateway short term)
