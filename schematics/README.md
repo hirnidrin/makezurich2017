@@ -1,2 +1,1 @@
-Hardware stuff: wiring and PCB design files.
-
+Breadboard and PCB Design (Fritzing)
