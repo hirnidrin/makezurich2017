@@ -1,7 +1,7 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'start' ]
 2 info using npm@3.10.10
-3 info using node@v6.9.4
+3 info using node@v6.9.5
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle ttn-mz@1.0.0~prestart: ttn-mz@1.0.0
 6 silly lifecycle ttn-mz@1.0.0~prestart: no script for prestart, continuing
@@ -26,7 +26,7 @@
 16 verbose cwd /home/patricksaegesser/byerley/ttn/makezurich2017/node
 17 error Linux 4.9.5-040905-generic
 18 error argv "/usr/bin/nodejs" "/usr/bin/npm" "start"
-19 error node v6.9.4
+19 error node v6.9.5
 20 error npm  v3.10.10
 21 error code ELIFECYCLE
 22 error ttn-mz@1.0.0 start: `node app.js`

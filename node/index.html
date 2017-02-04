@@ -1,27 +1,220 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
-    <link rel="stylesheet" href="css/main.css">
+    <title>MZGA</title>
+    
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+
+    <style>
+      .update {
+          background-color: #fff0f0;
+      }
+      .enter {
+          background-color: #f0fff0;
+      }
+      .chart .frame {
+          stroke:#ffffff;
+          stroke-width:1;
+          fill-opacity:0.5;
+      }
+      .chart .update, .chart .enter {
+          fill-opacity:0.5;
+          fill:#ffffff;
+          stroke:#ffffff;
+          stroke-width:1;
+      }
+    </style>
+
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      var socket = io();
-      $('form').submit(function(){
-          socket.emit('chat message', $('#m').val());
-          $('#m').val('');
-          return false;
-        });
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Make Zurich Green Again</a>
+        </div>
 
-        socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Live View <span class="sr-only">(current)</span></a></li>
+            <li><a href="/historic">Historic Data</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Temperature</h3>
+                  </div>
+              <div class="panel-body">
+                  <span id="temperature"> n/a </span>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-4">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Humidity</h3>
+                  </div>
+                <div class="panel-body">
+                    <span id="humidity"> n/a </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Battery</h3>
+                  </div>
+                <div class="panel-body">
+                    <span id="battery"> n/a </span>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="pull-right">
+              Last update: <span id="last-update"> n/a </span>
+            </div>
+          </div>
+        </div>
+
+      <div class="row">
+        <div class="col-md-12">
+            <h2>Server Emissions</h2>
+            <div class="chart bar-chart"></div>
+        </div>
+      </div>
+
+      <ul id="messages"></ul>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <script>
+
+        var socket = io();
+        socket.on('data_refresh', function(msg){
+            $('#temperature').text(msg.tmp);
+            $('#humidity').text(msg.hum);
+            $('#battery').text(msg.bat);
+            $('#last-update').text(msg.ts);
+            
+            var newData = {};
+            newData.date = new Date(msg.ts);
+            newData.value = msg.tmp;
+            
+            console.log(newData);
+            update(newData);
           });
-    </script>
+      </script>
+
+      <!-- Chart -->
+      <script type="text/javascript">
+        var data = [];
+        var width = Math.max($('.bar-chart').width(), 360), //960,
+            height = Math.max($('.bar-chart').height(), 300);
+        var chart = d3.select(".bar-chart").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+        var frameSize = 3;
+        var chartFrame = chart.append("g")
+            .append("rect")
+            .attr("class", "frame")
+            .attr("x", frameSize)
+            .attr("y", frameSize)
+            .attr("width", (width - frameSize*2))
+            .attr("height", (height - frameSize*2))
+            .attr("stroke", "#f1f442")
+            //.attr("stroke-width", frameSize);
+        var chartDefs = chart.append("defs");
+        var chartMask = chartDefs.append("mask").attr("id", "masterMask")
+            .append("rect")
+            .attr("x", frameSize)
+            .attr("y", frameSize)
+            .attr("width", (width - frameSize*2))
+            .attr("height", (height - frameSize*2))
+            .attr("fill", "#f1f442");
+        var chartRecords = chart.append("g")
+            .attr("mask", "url(#masterMask)");
+        var update = function(newData) {
+            //
+            // Update dataset
+            // Append new data
+            data = data.concat(newData)
+            // Remove old data (i.e., avoid overflows)
+            var maxNumberOfRecords = 51;
+            while (data.length > maxNumberOfRecords) {
+                delete data.shift();
+            }
+
+            console.log(data);
+            //
+            // Update chart
+            // 
+            // Setup scaling
+            var dateScale = d3.time.scale()
+                .domain(_.map(data, function(value, index) {
+                    return value.date;
+                }))
+                .range([0, (width - frameSize) / maxNumberOfRecords]);
+            
+            var valueScale = d3.scale.linear()
+                .range([0, (height - frameSize)]);
+            //
+            // DATA JOIN (i.e., join new data with old elements, if any)
+            var record = chartRecords.selectAll("rect")
+                .data(data);
+            // UPDATE (i.e., Update old elements as needed.)
+            record.attr("class", "update");
+            // ENTER (i.e., Create new elements as needed.)
+            record.enter().append("rect")
+                .attr("class", "enter")
+                .attr("x", (width - frameSize))
+                .attr("y", (height - frameSize));
+            // ENTER + UPDATE (i.e., Appending to the enter selection expands the update selection to include entering elements; so, operations on the update selection after appending to the enter selection will apply to both entering and updating nodes.)
+            record
+                .transition()
+                // .duration(200)
+                .attr("x", function(d, i) {
+                    return Math.floor(dateScale(d.date));
+                })
+                .attr("y", function(d, i) {
+                    return height - valueScale(d.value);
+                })
+                .attr("width", function(d, i) {
+                    return Math.ceil(width / maxNumberOfRecords); // Ensure overlap with neighbors
+                })
+                .attr("height", function(d, i) {
+                    return valueScale(d.value);
+                })
+                .attr('fill', 'white');
+            // EXIT
+            // Remove old elements as needed.
+            record.exit().remove();
+        };
+      </script>
+
+    </div>
   </body>
 </html>
