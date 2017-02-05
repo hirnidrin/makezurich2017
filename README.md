@@ -1,5 +1,5 @@
-## MakeZurich:GreenAgain
-#Collecting temperature and humidity data helps cactuseses grow strong!
+# MakeZurich:GreenAgain
+## Collecting temperature and humidity data helps cactuseses grow strong!
 
 We made a portable compact opne-data connection unit that gardners can easily pick up and place in th greenhouse of thir choice.
 
