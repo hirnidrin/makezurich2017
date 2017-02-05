@@ -1,40 +1,39 @@
 # MakeZurich:GreenAgain
-## Collecting temperature and humidity data helps cactuseses grow strong!
+## Collecting temperature and humidity open-data helps cactuseses grow strong!
 
-We made a portable compact opne-data connection unit that gardners can easily pick up and place in th greenhouse of thir choice.
+## Objective
+Gruene Stadt Zurich is interested in learning about the possibilities of developing IoT technologies based on LoRa for monitoring gardens and public green spaces in the city of Zurich. they envision a portable, compact data collection unit that gardeners can easily pickup and place in their location of choice adn monitor the environmental variables experienced in a desired location (in the future possible to switch to permanent installations). The data to be gathered, in order of priority, are:
+ * Battery status (could alert the gardeners to recharge the units when running out of power);
+ * Temperature;
+ * Humidity;
+ * Air flow / Wind (interesting for a collection of orchids, which are particularly sensitive to wind). 
 
-We thank for the collaboration of:
-* Mr Jonas Heimgartner: Gruene Stadt Zurich
-* Mr Schneider: gardener in chief at Sukkulentensammlung Zurich
+Gardeners and other end-users will be able see the current value of tempemerature, humidity etc. , visualize the time trace of the state variables and download the data. One aspect of the exploration is understand how digital non-intrusive monitoring system can be useful  to increase the productivity of gardners and other personnel responsible for maintaining public green spaces.
 
-The Hackathon team is:
-* Giorgio: the guy with the soldering iron
-* Patrick: working hard to show you the data
-* Philip: thanks to him the sensor-node board is dry and safe ... and it looks great too!
-* Quim: because you can become an expert in TTN netowrk coverage in 48 hours.
-* Werner: you need one like him to get thigs done! You really do!
+## Team
+The Hackathon team is comosed by (... and their Slack ID are):
+* Giorgio (@5igno): the guy with the soldering iron;
+* Patrick (@citizenvice): working hard to show you the data;
+* Philip (@philshem): thanks to him the sensor-node board is dry and safe ... and it looks great too!
+* Quim (@quim_vilar): because you can become an expert in TTN netowrk coverage in 48 hours;
+* Werner (@itsu): you need one like him to get thigs done! You really do!
 
-##Project Status
+We thank for the collaboration of (Slack ID):
+* Jonas Heimgartner (@gszheo) Gruene Stadt Zurich
+* Mr Schneider, gardener in chief at the Sukkulentensammlung Zurich
+* Matthias Schiebli (@matt) at Sensirion for support with their sensors 
 
-# Situation
-* 5 greenhouses, each about 10m long
-* poor electrical cabling
-* no internet connection readily available (garden office goes thru Stadt Zurich IT network, too closed for hooking up an untrusted gateway short term)
-* currently they have some old-school data loggers that only can be read-out by connecting a PC with USB cable
-* They participate in MZ17 to learn about the possibilities of Lora backed data acquisition / interaction. Check stability, accuracy, end user adoption. Convince end users / low-tech gardeners that modern digital non-intrusive monitoring system might be useful ;-)
+## Solution
+We made a portable compact opne-data connection unit that gardners can easily pick up and place in th greenhouse of their choice.
 
-## Goal
-As agreed on phone call with Mr Heimgartner 31.1.2017
-* One portable, compact data collection unit that gardeners can easily pickup and place in the greenhouse they choose. Right now it is no goal to have a fix installation in each greenhouse.
-* Unit runs on battery / rechargable, hopefully "more than one week".
-* Sensor values
- * Temp and humidity -- most interesting, do now.
- * Micro airflow -- postpone. Interesting for orchid collection... orchids don't like wind. Don't know if orchids are in a separate greenhouse.
-* Reporting
- * End users / low-tech gardeners shall be able to open a website and see histogram and current value of temp and humidity.
- * Data download -- nice to have, not required by now.
+## Location
+The Sukkulentensamlung is composed of five greenhouses, which are about 10m long. The houses have poor electrical cabling connectivity and there is no internet connection readily available in place. Stadt Zurich IT network supplies the IT connectivity infrastructure to the faciity. Unfortunately, because of safety and security ground (which? investigate...), it is not possible to connect an untrasted untrusted gateway in the short term of the MakeZurich hackathon. The current infrastructure consists of data loggers that need to be read-out by physically connecting to PC via USB.
 
 ## Todos for the team
+In the long term:
+* check stability, accuracy;
+* analized end-user adoption.
+
 * Check TTN LoraWAN coverage Mythenquai. If not ok:
  * search community for someone living close by for placing a temporary gateway.
  * Worst case: Place a GSM based gateway locally somewhere in the Sukkulentensammlung.
