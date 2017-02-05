@@ -1,14 +1,17 @@
 # MakeZurich:GreenAgain
-## Collecting temperature and humidity open-data helps cactuseses grow strong!
+## Collecting Temperature and Humidity Open-data Helps Cactuseses to Grow Strong!
 
 ## Objective
-Gruene Stadt Zurich is interested in learning about the possibilities of developing IoT technologies based on LoRa for monitoring gardens and public green spaces in the city of Zurich. they envision a portable, compact data collection unit that gardeners can easily pickup and place in their location of choice adn monitor the environmental variables experienced in a desired location (in the future possible to switch to permanent installations). The data to be gathered, in order of priority, are:
- * Battery status (could alert the gardeners to recharge the units when running out of power);
+Gruene Stadt Zurich is interested in learning about the possibility of using IoT technologies based on LoRa for monitoring gardens and public green spaces in the city of Zurich.
+They envision a portable, compact data-collection unit that gardeners can easily pickup and place in their location of choice to monitor the environment. The data to be gathered, also called "garden state variables", are in order of priority:
+ * Battery status: could alert the gardeners to recharge the units when running out of power);
  * Temperature;
  * Humidity;
- * Air flow / Wind (interesting for a collection of orchids, which are particularly sensitive to wind). 
+ * Air flow / Wind: interesting for plants like orchids, which are particularly sensitive to currents and wind. 
+Gardeners and other end-users will be able see the current state and a time-trace history of the "garden state variables" in a dedicated website, and download the data. The MakeZurich hackathon is a first-step opportunity to explore how digital non-intrusive monitoring system can be useful to increase the productivity of gardners and other personnel responsible for maintaining public green spaces in the city of Zurich.
 
-Gardeners and other end-users will be able see the current value of tempemerature, humidity etc. , visualize the time trace of the state variables and download the data. One aspect of the exploration is understand how digital non-intrusive monitoring system can be useful  to increase the productivity of gardners and other personnel responsible for maintaining public green spaces.
+## Location
+The Sukkulentensamlung is composed of five greenhouses, which are about 10m long. The houses have poor electrical cabling connectivity and there is no internet connection readily available in place. Stadt Zurich IT network supplies the IT connectivity infrastructure to the faciity. Unfortunately, because of safety and security ground (which? investigate...), it is not possible to connect an untrasted untrusted gateway in the short term of the MakeZurich hackathon. The current infrastructure consists of data loggers that need to be read-out by physically connecting to PC via USB.
 
 ## Team
 The Hackathon team is comosed by (... and their Slack ID are):
@@ -24,10 +27,8 @@ We thank for the collaboration of (Slack ID):
 * Matthias Schiebli (@matt) at Sensirion for support with their sensors 
 
 ## Solution
-We made a portable compact opne-data connection unit that gardners can easily pick up and place in th greenhouse of their choice.
+We made a portable and compact open-data collection unit that gardners can easily pick up and place in the greenhouse of their choice.
 
-## Location
-The Sukkulentensamlung is composed of five greenhouses, which are about 10m long. The houses have poor electrical cabling connectivity and there is no internet connection readily available in place. Stadt Zurich IT network supplies the IT connectivity infrastructure to the faciity. Unfortunately, because of safety and security ground (which? investigate...), it is not possible to connect an untrasted untrusted gateway in the short term of the MakeZurich hackathon. The current infrastructure consists of data loggers that need to be read-out by physically connecting to PC via USB.
 
 ## Todos for the team
 In the long term:
